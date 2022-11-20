@@ -13,7 +13,7 @@ public class App {
         System.out.println("Process List \n");
         processList.showList();
         resourceList.showList();
-        //    System.out.println( resourceList.retrieve(1));
+           System.out.println( resourceList.retrieve(1));
         CPUFunctions functions= new CPUFunctions();
         functions.addProcessToCpu(processList, resourceList);
     }
