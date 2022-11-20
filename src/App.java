@@ -14,8 +14,8 @@ public class App {
         processList.showList();
         resourceList.showList();
         //    System.out.println( resourceList.retrieve(1));
-        // CPUFunctions functions= new CPUFunctions();
-        // functions.addProcessToCpu(processList, resourceList);
+        CPUFunctions functions= new CPUFunctions();
+        functions.addProcessToCpu(processList, resourceList);
     }
 
     public static ProcessList list(ProcessList plList){

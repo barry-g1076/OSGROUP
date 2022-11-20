@@ -13,9 +13,9 @@ public class CPU {
     /*  Function to check if queue is empty */
     public boolean isEmpty()
     {
-        if(front == null)
+        if(front == null){
         	return true;
-        
+        }
         return false;
     }    
     /*  Function to insert an element to the queue */

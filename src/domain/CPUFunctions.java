@@ -1,6 +1,5 @@
 package domain;
 
-
 public class CPUFunctions {
     ProcessList pList;
     CPU cQueue;
@@ -19,61 +18,89 @@ public class CPUFunctions {
     }
 
     public void addProcessToCpu(ProcessList processList, ResourceList resourceList) {
-        // CPU cpu2 = new CPU();
-        CPU processQueue= addProcessToQueue(processList);
-        Node currentNode=processQueue.front;
-        // Node curNode=null;
-        // Node prev= null;
-        int systemTime=0;
-        int bTime1=0;
-        while(systemTime!=30){
-            if (systemTime!= currentNode.getdataProcess().getArrivalTime()) {
-                System.out.println("Cpus are Idle");
-            }else if (systemTime== currentNode.getdataProcess().getArrivalTime()) {
-                addProcessToCpu1( currentNode,  resourceList);
-            }
-             if(bTime1== currentNode.getdataProcess().getBurstTime()){
-                currentNode.getNextNode();
-                addProcessToCpu1( currentNode,  resourceList);
-            }
-             if (bTime1!= currentNode.getdataProcess().getBurstTime()) {
-                System.out.println("Cpu1 is busy");
+        CPU cpu2 = new CPU();
+        CPU cpu1 = new CPU();
+        CPU temp = new CPU();
+        Node currentNode = processList.head;
+        int systemTime = 0;
+        int bTime1 = 1;
+        int bTime2 = 1;
+        int tempT = 5;
+        while (systemTime < 30) {
+            // while (bTime2 < tempT) {
+            if (cpu1.isEmpty() || cpu2.isEmpty()) {
+                while (cpu1.isEmpty()&&currentNode.getNextNode() != null) {
+                    if (systemTime == currentNode.getdataProcess().getArrivalTime()) {
+                        cpu1.enqueue(currentNode.getdataProcess());
+                        System.out.println("Cpu 1 is busy");
+                        if (currentNode.getNextNode() != null) {
+                            currentNode = currentNode.getNextNode();
+                            break;
+                        } else {
+                            break;
+                        }
+                    }
+                    if (!cpu2.isEmpty() && bTime2 != cpu2.front.getdataProcess().getBurstTime()) {
+                        bTime2++;
+                        System.out.println("CPU 2 is busy burst check adding from cpu 1");
+
+                    }
+                    systemTime++;
+                    System.out.println("CPU 1 is idle");
+                }
+                while (!cpu1.isEmpty() && cpu2.isEmpty()) {
+                    if (!cpu1.isEmpty() && bTime1 != cpu1.front.getdataProcess().getBurstTime()) {
+                        bTime1++;
+                        System.out.println("CPU 1 is busy burst check adding from cpu 2");
+                    }
+                    if (systemTime == currentNode.getdataProcess().getArrivalTime()) {
+                        cpu2.enqueue(currentNode.getdataProcess());
+                        System.out.println("Cpu 2 is busy");
+                        tempT = currentNode.getdataProcess().getBurstTime();
+                        System.out.println("temp time" + tempT);
+                        if (currentNode.getNextNode() != null) {
+                            currentNode = currentNode.getNextNode();
+                        } else {
+                            break;
+                        }
+                        break;
+                    }
+
+                    systemTime++;
+                    System.out.println("CPU 2 is idle");
+                }
+            } // end is empty check
+            if (cpu1.isEmpty()) {
+                System.out.println("CPU 1 is empty no more processes to run");
+                systemTime++;
+            } else if (bTime1 == cpu1.front.getdataProcess().getBurstTime()) {
+                temp.enqueue(cpu1.dequeue().getdataProcess());
+                System.out.println("CPU 1 is now empty");
+                bTime1 = 0;
+            } else {
+                System.out.println("CPU 1 is busy burst check");
                 bTime1++;
             }
-            systemTime++;
-            System.out.println("System Time: "+systemTime+" Burst Time: "+bTime1);
+            if (cpu2.isEmpty()) {
+                System.out.println("CPU 2 is empty no more processes to run");
+                systemTime++;
+            } else if (bTime2 == cpu2.front.getdataProcess().getBurstTime()) {
+                temp.enqueue(cpu2.dequeue().getdataProcess());
+                System.out.println("CPU 2 is idle  now empty");
+                bTime2 = 0;
+            } else {
+                System.out.println("CPU 2 is busy burst check");
+                bTime2++;
+            }
+            // } // end While
+            System.out.println("System Time: " + systemTime + " Burst Time 1: " + bTime1 + " Burst Time 2:" + bTime2);
         }
+        temp.display();
     }
+
     public int generateRan() {
         final var rand = java.util.concurrent.ThreadLocalRandom.current();
         return rand.nextInt((int) 1, (int) 5);
     }
-    public void addProcessToCpu1(Node process, ResourceList resourceList){
-        CPU cpu1 = new CPU();
-        cpu1.enqueue(process.dataProcess);
-        Node nextQNode = process;
-        Node prev= null;
-       
-            resource= resourceList.retrieve(generateRan());
-            if (nextQNode.getdataProcess().getTask() == 1) {
-                resource.setData(generateRan());
-                System.out.println("Task 1 complete");
-                // resourceList.showList();
-            }else if(nextQNode.getdataProcess().getTask() == 2){
-                resource.setData(0);
-                System.out.println("Task 2 complete");
-                // resourceList.showList();
-            }else  if(nextQNode.getdataProcess().getTask() == 3){
-                System.out.println("Task 3 complete");
-                System.out.println(resourceList.retrieve(resource.getiD()));
-            }else  if(nextQNode.getdataProcess().getTask() == 4){
-                System.out.println("Task 4 complete");
-                // resourceList.sumList();
-            }
-            if (prev != null){
-                nextQNode.dataProcess.setBlockedTime(prev.dataProcess.getBurstTime());
-            }
-            prev=nextQNode;
-            cpu1.display();
-    }
+
 }
