@@ -26,20 +26,16 @@ public class CPUFunctions {
         int bTime1 = 1;
         int bTime2 = 1;
         int tempT = 5;
-        while (systemTime < 30) {
+        while (systemTime < 30  ) {
             // while (bTime2 < tempT) {
             if (cpu1.isEmpty() || cpu2.isEmpty()) {
-                while (cpu1.isEmpty()&&currentNode.getNextNode() != null) {
+                while (cpu1.isEmpty()&& currentNode!= null) {
                     if (systemTime == currentNode.getdataProcess().getArrivalTime()) {
                         cpu1.enqueue(currentNode.getdataProcess());
                         System.out.println("Cpu 1 is busy");
-                        if (currentNode.getNextNode() != null) {
-                            currentNode = currentNode.getNextNode();
+                        currentNode = currentNode.getNextNode();
                             break;
-                        } else {
-                            break;
-                        }
-                    }
+                     }
                     if (!cpu2.isEmpty() && bTime2 != cpu2.front.getdataProcess().getBurstTime()) {
                         bTime2++;
                         System.out.println("CPU 2 is busy burst check adding from cpu 1");
@@ -48,8 +44,8 @@ public class CPUFunctions {
                     systemTime++;
                     System.out.println("CPU 1 is idle");
                 }
-                while (!cpu1.isEmpty() && cpu2.isEmpty()) {
-                    if (!cpu1.isEmpty() && bTime1 != cpu1.front.getdataProcess().getBurstTime()) {
+                while (!cpu1.isEmpty() && cpu2.isEmpty()&& currentNode!= null) {
+                    if (bTime1 != cpu1.front.getdataProcess().getBurstTime()) {
                         bTime1++;
                         System.out.println("CPU 1 is busy burst check adding from cpu 2");
                     }
@@ -58,19 +54,21 @@ public class CPUFunctions {
                         System.out.println("Cpu 2 is busy");
                         tempT = currentNode.getdataProcess().getBurstTime();
                         System.out.println("temp time" + tempT);
-                        if (currentNode.getNextNode() != null) {
+                       
                             currentNode = currentNode.getNextNode();
-                        } else {
                             break;
-                        }
-                        break;
+                          
                     }
-
+                    
                     systemTime++;
                     System.out.println("CPU 2 is idle");
                 }
+                
+                bTime1=LockRes(cpu1,cpu1.getFrontProcess().getBurstTime(),cpu1.getFrontProcess().getTask(),resourceList);
+                bTime2=LockRes(cpu2,cpu2.getFrontProcess().getBurstTime(),cpu2.getFrontProcess().getTask(),resourceList);
+                
             } // end is empty check
-            if (cpu1.isEmpty()) {
+            if (cpu1.isEmpty()&& currentNode == null) {
                 System.out.println("CPU 1 is empty no more processes to run");
                 systemTime++;
             } else if (bTime1 == cpu1.front.getdataProcess().getBurstTime()) {
@@ -81,7 +79,7 @@ public class CPUFunctions {
                 System.out.println("CPU 1 is busy burst check");
                 bTime1++;
             }
-            if (cpu2.isEmpty()) {
+            if (cpu2.isEmpty() && currentNode == null) {
                 System.out.println("CPU 2 is empty no more processes to run");
                 systemTime++;
             } else if (bTime2 == cpu2.front.getdataProcess().getBurstTime()) {
@@ -97,10 +95,55 @@ public class CPUFunctions {
         }
         temp.display();
     }
-
+    public int LockRes(CPU a, int BT, int RT , ResourceList resourceList) {
+    	 Resource res;		
+    	 res= resourceList.retrieve(generateRan());     
+            
+    	 if (RT==3||RT==4 ) {
+    		 if(RT==3) {
+           System.out.println(res.getData());
+           if(BT!=a.front.getdataProcess().getBurstTime())
+    		   BT++;
+           }else{
+        	   resourceList.sumList();
+        	   if(BT!=a.front.getdataProcess().getBurstTime())
+        		   BT++;
+           }
+            	return BT ;
+            }else {
+            	
+            	for(;BT<= a.front.getdataProcess().getBurstTime();BT++) {
+            		
+            		System.out.println("Resource is now locked");
+            		
+            		
+            	}
+            	if(RT==1) {
+            		res.setData(generateRan1());
+                    System.out.println("Data Update to: "+res.getData());
+                    System.out.println("Resourse is now Unlocked");
+                    }else{
+                 	   res.setData(0);
+                 	  System.out.println("Data was removed to: "+res.getData());
+                 	  System.out.println("Resourse is now Unlocked");
+                 	  }
+            	
+            	
+            	return BT;
+            }
+            }
+		
+            
+              
+                  
     public int generateRan() {
         final var rand = java.util.concurrent.ThreadLocalRandom.current();
         return rand.nextInt((int) 1, (int) 5);
+    } 
+   
+    public int generateRan1() {
+        final var rand = java.util.concurrent.ThreadLocalRandom.current();
+        return rand.nextInt((int) 1, (int) 100);
     }
-
+ 
 }
