@@ -58,6 +58,7 @@ public class ResourceList {
         Node current = head;
         if (!isEmpty()) {
             System.out.println("Shared Resource List: ");
+            sortList();
             while (current != null) {
                 System.out.println(current.getDataResource());
                 current = current.getNextNode();
@@ -90,6 +91,27 @@ public class ResourceList {
             }
         }
         System.out.println("List is distroyed");
+    }
+
+    public void sortList() // sort the list
+    {
+        if (head == null)
+            System.out.println("List Empty");
+        else {
+            Node start = head;
+            Node p = null;
+            for (Node end = null; end != start.getNextNode(); end = p) {
+                for (p = start; p.getNextNode() != end; p = p.getNextNode()) {
+                    Node q = p.getNextNode();
+                    if (p.getDataResource().getiD() > q.getDataResource().getiD()) {
+                        Resource temp = p.getDataResource();
+                        p.setDataResource(q.getDataResource());
+                        q.setDataResource(temp);
+                    }
+                }
+            }
+        }
+
     }
 
 }

@@ -20,7 +20,7 @@ public class App {
 
     public static ProcessList list(ProcessList plList){
         Process pd = new Process();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 20; i++) {
             pd.setPID(i+1);
             plList.InsertAtFront(pd);
             pd = new Process();
@@ -31,7 +31,7 @@ public class App {
 
     public static ResourceList list(ResourceList rlist){
         Resource rd = new Resource();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 20; i++) {
             rd.setiD(i+1);
             rlist.InsertAtFront(rd);
             rd =  new Resource();

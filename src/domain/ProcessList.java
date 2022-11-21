@@ -62,7 +62,6 @@ public class ProcessList {
     public void showList() {
         Node current = head;
         if (current != null) {
-            sortList();
             sortListByArrivalTime();
             sortListByPriority();
             while (current != null) {
@@ -128,24 +127,5 @@ public class ProcessList {
 
     }
 
-    public void sortList() // sort the list
-    {
-        if (head == null)
-            System.out.println("List Empty");
-        else {
-            Node start = head;
-            Node p = null;
-            for (Node end = null; end != start.getNextNode(); end = p) {
-                for (p = start; p.getNextNode() != end; p = p.getNextNode()) {
-                    Node q = p.getNextNode();
-                    if (p.getdataProcess().getPID() > q.getdataProcess().getPID()) {
-                        Process temp = p.getdataProcess();
-                        p.setdataProcess(q.getdataProcess());
-                        q.setdataProcess(temp);
-                    }
-                }
-            }
-        }
-
-    }
+   
 }

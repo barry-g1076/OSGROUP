@@ -42,12 +42,6 @@ public class CPU {
         return front.getdataProcess();
     }
     
-    // public Node getProcessNext(Process currentProcess){
-    //     if(isEmpty()){
-    //         System.out.println("there is no process to retrive");
-    //     }
-    //     return ((Node) currentProcess).getNextNode();
-    // }
     /*  Function to remove front element from the queue */
     public Node dequeue()
     {
@@ -64,7 +58,7 @@ public class CPU {
     /*  Function to display the status of the queue */
     public void display()
     {
-        System.out.println("Queue = ");
+        System.out.println("Process list in order of completion");
         if (isEmpty() == true)
         {
             System.out.println("Empty\n");
@@ -87,21 +81,5 @@ public class CPU {
             node = node.getNextNode();
         }
         System.out.println("All processes in CPU 1 is terminated ");  
-    }
-    
-    public int countQueueItems(CPU queue) {
-    	int count=0;
-    	if (isEmpty() == true)
-        {
-            System.out.println("Empty\n");
-            return -1;
-        }
-    	Node node = queue.front;
-        while (node != null )
-        {
-            count++;
-            node = node.getNextNode();
-        }
-        return count;
     }
 }

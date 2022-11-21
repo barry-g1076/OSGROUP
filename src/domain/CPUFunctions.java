@@ -74,6 +74,7 @@ public class CPUFunctions {
             }
         }
         temp.display();
+        resourceList.showList();
     }
 
     public int LockRes(CPU a, int BT, int RT, ResourceList resourceList) {
@@ -82,7 +83,7 @@ public class CPUFunctions {
 
         if (RT == 3 || RT == 4) {
             if (RT == 3) {
-                System.out.println(res.getData());
+                System.out.println("Retrieved: Resource ID:"+res.getiD()+" Data:"+res.getData());
                 if (BT != a.front.getdataProcess().getBurstTime())
                     BT++;
             } else {
@@ -102,11 +103,11 @@ public class CPUFunctions {
             if (RT == 1) {
                 System.out.println("Resource is now unlocked");
                 res.setData(generateRan1());
-                System.out.println("Data Update to: " + res.getData());
+                System.out.println("Update resource ID: "+res.getiD()+" Data to: " + res.getData());
             } else {
                 System.out.println("Resource is now unlocked");
                 res.setData(0);
-                System.out.println("Data was removed: " + res.getData());
+                System.out.println("Data was removed ID: " +res.getiD()+" Data: "+ res.getData());
             }
            
                 BT=a.front.getdataProcess().getBurstTime();

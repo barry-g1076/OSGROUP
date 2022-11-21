@@ -27,6 +27,6 @@ public class Resource {
 
     @Override
     public String toString() {
-        return "ID: " + this.iD + "data:" + this.data;
+        return "ID: " + this.iD + " Data: " + this.data;
     }
 }
